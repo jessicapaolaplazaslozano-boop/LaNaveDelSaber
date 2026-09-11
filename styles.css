@@ -480,6 +480,25 @@ header {
   transform: scale(1.1);
 }
 
+.emo-card.pop {
+  animation: emoPop 0.45s ease;
+}
+
+@keyframes emoPop {
+  0% {
+    transform: scale(1);
+  }
+  40% {
+    transform: scale(1.25) rotate(-4deg);
+  }
+  70% {
+    transform: scale(0.95) rotate(3deg);
+  }
+  100% {
+    transform: scale(1.1) rotate(0deg);
+  }
+}
+
 .emo-face {
   font-size: 2.8rem;
   display: block;
@@ -586,6 +605,25 @@ header {
 
 .story-body p {
   margin-bottom: var(--space-md);
+}
+
+.story-icon-open {
+  display: inline-block;
+  animation: storyIconIn 0.5s ease;
+}
+
+@keyframes storyIconIn {
+  0% {
+    transform: scale(0.3) rotate(-15deg);
+    opacity: 0;
+  }
+  60% {
+    transform: scale(1.2) rotate(8deg);
+    opacity: 1;
+  }
+  100% {
+    transform: scale(1) rotate(0deg);
+  }
 }
 
 /* ===== JUEGO DE SÍLABAS ===== */

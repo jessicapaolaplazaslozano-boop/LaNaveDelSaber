@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="La Nave del Saber - Plataforma educativa interactiva para niños" />
+  <meta name="theme-color" content="#1a0a4e" />
+  
+  <title>🚀 La Nave del Saber</title>
+  
+  <link href="https://fonts.googleapis.com/css2?family=Fredoka+One&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <!-- Decoración: Estrellas de fondo -->
+  <div class="stars" id="starsContainer" aria-hidden="true"></div>
+
+  <!-- Celebración: Confetti -->
+  <div class="celebration" id="celebration" aria-hidden="true" role="status"></div>
+
+  <!-- Contenedor principal -->
+  <main id="app" class="app-container">
+
+    <!-- ===== PANTALLA: MENÚ PRINCIPAL ===== -->
+    <section class="screen active" id="screen-home" aria-label="Menú principal">
+      <header class="app-header">
+        <svg class="nave-svg" width="120" height="90" viewBox="0 0 120 90" 
+             fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+          <ellipse cx="60" cy="65" rx="35" ry="12" fill="rgba(168,85,247,0.3)"/>
+          <path d="M60 10 L82 55 L38 55 Z" fill="#7c3aed" stroke="#a855f7" stroke-width="2"/>
+          <rect x="50" y="50" width="20" height="18" rx="4" fill="#4c1d95"/>
+          <rect x="54" y="53" width="12" height="8" rx="3" fill="#06b6d4" opacity="0.8"/>
+          <circle cx="60" cy="20" r="5" fill="#fbbf24"/>
+          <path d="M40 60 L28 72" stroke="#f97316" stroke-width="3" stroke-linecap="round"/>
+          <path d="M80 60 L92 72" stroke="#f97316" stroke-width="3" stroke-linecap="round"/>
+          <circle cx="28" cy="72" r="5" fill="#ef4444"/>
+          <circle cx="92" cy="72" r="5" fill="#ef4444"/>
+        </svg>
+        <h1 class="app-title">🚀 La Nave del Saber</h1>
+        <p class="app-subtitle">¡Aprende jugando con las palabras y las emociones!</p>
+      </header>
+
+      <nav class="menu-grid" aria-label="Menú de opciones">
+        <button class="menu-card" onclick="goTo('screen-letras')" aria-label="El Abecedario - Aprende las letras y palabras">
+          <span class="menu-icon" aria-hidden="true">🔤</span>
+          <h2 class="menu-title">El Abecedario</h2>
+          <p class="menu-desc">Aprende las letras y palabras</p>
+        </button>
+        <button class="menu-card" onclick="goTo('screen-emociones')" aria-label="Mis Emociones - Descubre cómo te sientes">
+          <span class="menu-icon" aria-hidden="true">😊</span>
+          <h2 class="menu-title">Mis Emociones</h2>
+          <p class="menu-desc">Descubre cómo te sientes</p>
+        </button>
+        <button class="menu-card" onclick="goTo('screen-cuentos')" aria-label="Cuentos Mágicos - Lee mini cuentos con valores">
+          <span class="menu-icon" aria-hidden="true">📖</span>
+          <h2 class="menu-title">Cuentos Mágicos</h2>
+          <p class="menu-desc">Lee mini cuentos con valores</p>
+        </button>
+        <button class="menu-card" onclick="goTo('screen-juego')" aria-label="Juego de Sílabas - Completa las palabras">
+          <span class="menu-icon" aria-hidden="true">🎮</span>
+          <h2 class="menu-title">Juego de Sílabas</h2>
+          <p class="menu-desc">Completa las palabras</p>
+        </button>
+      </nav>
+    </section>
+
+    <!-- ===== PANTALLA: ABECEDARIO ===== -->
+    <section class="screen" id="screen-letras" aria-label="Aprende el abecedario">
+      <button class="btn-back" onclick="goTo('screen-home')" aria-label="Volver al menú principal">← Volver</button>
+      <header>
+        <h2 class="section-title">🔤 El Abecedario</h2>
+        <p class="section-sub">Toca una letra para aprender</p>
+      </header>
+
+      <div class="abc-grid" id="abcGrid" role="group" aria-label="Letras del abecedario"></div>
+
+      <article class="content-card letter-panel" id="letterPanel" aria-live="polite" aria-atomic="true">
+        <div class="letter-display">
+          <div class="big-letter" id="bigLetter" aria-label="Letra actual">A</div>
+          <span class="letter-emoji" id="letterEmoji" aria-hidden="true">🍎</span>
+          <div class="letter-word" id="letterWord">A de <strong>Árbol</strong></div>
+          <div id="letterPhrase" class="letter-phrase"></div>
+        </div>
+      </article>
+    </section>
+
+    <!-- ===== PANTALLA: EMOCIONES ===== -->
+    <section class="screen" id="screen-emociones" aria-label="Explora tus emociones">
+      <button class="btn-back" onclick="goTo('screen-home')" aria-label="Volver al menú principal">← Volver</button>
+      <header>
+        <h2 class="section-title">💛 Mis Emociones</h2>
+        <p class="section-sub">¿Cómo te sientes hoy? ¡Toca una emoción!</p>
+      </header>
+
+      <div class="emo-grid" id="emoGrid" role="group" aria-label="Emociones disponibles"></div>
+
+      <article class="emo-panel content-card" id="emoPanel" aria-live="polite" aria-atomic="true">
+        <div style="font-size:3.5rem;" id="emoBigFace" aria-label="Emoción seleccionada">😊</div>
+        <h3 id="emoTitle">Alegría</h3>
+        <p id="emoDesc"></p>
+        <div class="emo-tips">
+          <div class="emo-tips-label">¿Qué puedes hacer?</div>
+          <div id="emoTip" class="emo-tips-content"></div>
+        </div>
+      </article>
+    </section>
+
+    <!-- ===== PANTALLA: CUENTOS ===== -->
+    <section class="screen" id="screen-cuentos" aria-label="Lee cuentos mágicos">
+      <button class="btn-back" onclick="goTo('screen-home')" aria-label="Volver al menú principal">← Volver</button>
+      <header>
+        <h2 class="section-title">📖 Cuentos Mágicos</h2>
+        <p class="section-sub">Elige un cuento para leer</p>
+      </header>
+      <div id="storyList" role="list" aria-label="Lista de cuentos disponibles"></div>
+    </section>
+
+    <!-- ===== PANTALLA: CUENTO DETALLE ===== -->
+    <section class="screen" id="screen-cuento-detalle" aria-label="Detalle del cuento">
+      <button class="btn-back" onclick="goTo('screen-cuentos')" aria-label="Volver a cuentos">← Cuentos</button>
+      <article class="content-card" id="storyContent" aria-live="polite"></article>
+    </section>
+
+    <!-- ===== PANTALLA: JUEGO SÍLABAS ===== -->
+    <section class="screen" id="screen-juego" aria-label="Juego de sílabas">
+      <button class="btn-back" onclick="goTo('screen-home')" aria-label="Volver al menú principal">← Volver</button>
+      <header>
+        <h2 class="section-title">🎮 Juego de Sílabas</h2>
+        <p class="section-sub">¿Qué sílaba completa la palabra?</p>
+      </header>
+
+      <div class="score-bar">
+        <span class="score-label">⭐ Estrellas:</span>
+        <div class="stars-row" id="starsRow" aria-live="polite" aria-label="Puntuación actual"></div>
+        <span id="scoreCount" aria-atomic="true">0 / 5</span>
+      </div>
+
+      <div class="progress-row" id="progressRow" aria-label="Progreso del juego" role="progressbar"></div>
+
+      <article class="content-card word-game-area">
+        <p class="game-instruction">Completa la palabra:</p>
+        <div class="syllable-display" id="syllableDisplay" aria-label="Palabra incompleta">MA___</div>
+        <span id="wordHint" aria-hidden="true"></span>
+        <div class="word-options" id="wordOptions" role="group" aria-label="Opciones de respuesta"></div>
+        <div class="result-badge" id="resultBadge" aria-live="assertive" aria-atomic="true"></div>
+      </article>
+
+      <div class="game-actions">
+        <button class="btn-primary" id="nextWordBtn" onclick="nextWord()" aria-label="Siguiente palabra">Siguiente ➡️</button>
+      </div>
+    </section>
+
+  </main>
+
+  <script src="data.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>

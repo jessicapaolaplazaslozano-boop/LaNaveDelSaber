@@ -657,11 +657,36 @@ header {
   font-family: var(--font-display);
   font-size: 3rem;
   font-weight: 800;
-  letter-spacing: 8px;
   color: var(--color-accent);
   text-shadow: 0 0 20px rgba(251, 191, 36, 0.5);
   margin: var(--space-xl) 0;
   will-change: opacity;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: flex-end;
+  gap: 0.1em;
+}
+
+.syl-letter {
+  display: inline-block;
+}
+
+.syl-blank {
+  display: inline-block;
+  width: 0.6em;
+  height: 0.14em;
+  margin-bottom: 0.18em;
+  background: currentColor;
+  border-radius: 3px;
+  box-shadow: 0 0 10px currentColor;
+}
+
+#wordHint {
+  display: block;
+  font-size: 3rem;
+  margin: var(--space-sm) 0;
+  line-height: 1;
 }
 
 .word-options {
@@ -823,7 +848,6 @@ header {
 
   .syllable-display {
     font-size: 2rem;
-    letter-spacing: 4px;
   }
 }
 

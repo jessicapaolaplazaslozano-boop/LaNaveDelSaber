@@ -237,7 +237,10 @@ function showWord() {
   renderSyllableDisplay(word.display);
   document.getElementById('wordHint').textContent = word.hint;
   document.getElementById('resultBadge').className = 'result-badge';
-  document.getElementById('nextWordBtn').style.display = 'none';
+  const nextBtn = document.getElementById('nextWordBtn');
+  nextBtn.textContent = 'Siguiente ➡️';
+  nextBtn.onclick = nextWord;
+  nextBtn.style.display = 'none';
   const options = document.getElementById('wordOptions');
   options.innerHTML = '';
   const shuffledOptions = shuffleArray(word.options);

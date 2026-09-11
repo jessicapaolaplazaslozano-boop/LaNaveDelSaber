@@ -231,21 +231,21 @@ header {
   font-family: inherit;
   font-size: inherit;
   color: inherit;
+}
 
-  &:hover {
-    transform: translateY(-6px) scale(1.02);
-    border-color: var(--color-border);
-    box-shadow: var(--shadow-lg);
-  }
+.menu-card:hover {
+  transform: translateY(-6px) scale(1.02);
+  border-color: var(--color-border);
+  box-shadow: var(--shadow-lg);
+}
 
-  &:active {
-    transform: scale(0.97);
-  }
+.menu-card:active {
+  transform: scale(0.97);
+}
 
-  &:focus {
-    outline: 3px solid var(--color-info);
-    outline-offset: 2px;
-  }
+.menu-card:focus {
+  outline: 3px solid var(--color-info);
+  outline-offset: 2px;
 }
 
 .menu-icon {
@@ -284,20 +284,20 @@ header {
   display: inline-flex;
   align-items: center;
   gap: var(--space-sm);
+}
 
-  &:hover {
-    background: var(--color-border-light);
-    transform: translateX(-3px);
-  }
+.btn-back:hover {
+  background: var(--color-border-light);
+  transform: translateX(-3px);
+}
 
-  &:focus {
-    outline: 3px solid var(--color-info);
-    outline-offset: 2px;
-  }
+.btn-back:focus {
+  outline: 3px solid var(--color-info);
+  outline-offset: 2px;
+}
 
-  &:active {
-    transform: scale(0.98);
-  }
+.btn-back:active {
+  transform: scale(0.98);
 }
 
 .btn-primary {
@@ -312,20 +312,20 @@ header {
   cursor: pointer;
   transition: all var(--transition-fast);
   box-shadow: var(--shadow-md);
+}
 
-  &:hover {
-    transform: translateY(-3px);
-    box-shadow: var(--shadow-xl);
-  }
+.btn-primary:hover {
+  transform: translateY(-3px);
+  box-shadow: var(--shadow-xl);
+}
 
-  &:focus {
-    outline: 3px solid var(--color-info);
-    outline-offset: 2px;
-  }
+.btn-primary:focus {
+  outline: 3px solid var(--color-info);
+  outline-offset: 2px;
+}
 
-  &:active {
-    transform: scale(0.97);
-  }
+.btn-primary:active {
+  transform: scale(0.97);
 }
 
 /* ===== TARJETA CONTENIDO ===== */
@@ -338,12 +338,11 @@ header {
   backdrop-filter: blur(10px);
 }
 
-.content-card:not(.letter-panel) {
+/* El panel de la letra empieza oculto y se muestra vía JS al elegir una letra.
+   OJO: antes esta regla usaba ".content-card:not(.letter-panel)" y ocultaba
+   TAMBIÉN el panel de emociones, el cuento y el área del juego. */
+#letterPanel {
   display: none;
-}
-
-.content-card.letter-panel {
-  display: block;
 }
 
 /* ===== ABECEDARIO ===== */
@@ -367,23 +366,23 @@ header {
   transition: all var(--transition-fast);
   text-align: center;
   will-change: transform;
+}
 
-  &:hover {
-    transform: scale(1.15);
-    background: rgba(168, 85, 247, 0.3);
-    border-color: var(--color-primary-light);
-  }
+.abc-btn:hover {
+  transform: scale(1.15);
+  background: rgba(168, 85, 247, 0.3);
+  border-color: var(--color-primary-light);
+}
 
-  &:focus {
-    outline: 2px solid var(--color-info);
-    outline-offset: 2px;
-  }
+.abc-btn:focus {
+  outline: 2px solid var(--color-info);
+  outline-offset: 2px;
+}
 
-  &.active-letter {
-    background: linear-gradient(135deg, var(--color-primary), var(--color-primary-light));
-    border-color: var(--color-neutral);
-    box-shadow: 0 4px 15px rgba(168, 85, 247, 0.5);
-  }
+.abc-btn.active-letter {
+  background: linear-gradient(135deg, var(--color-primary), var(--color-primary-light));
+  border-color: var(--color-neutral);
+  box-shadow: 0 4px 15px rgba(168, 85, 247, 0.5);
 }
 
 @media (max-width: 500px) {
@@ -464,21 +463,21 @@ header {
   transition: all var(--transition-fast);
   border: 3px solid transparent;
   will-change: transform;
+}
 
-  &:hover {
-    transform: scale(1.07);
-  }
+.emo-card:hover {
+  transform: scale(1.07);
+}
 
-  &:focus {
-    outline: 3px solid var(--color-info);
-    outline-offset: 2px;
-  }
+.emo-card:focus {
+  outline: 3px solid var(--color-info);
+  outline-offset: 2px;
+}
 
-  &.selected {
-    border-color: var(--color-neutral);
-    box-shadow: 0 0 20px rgba(255, 255, 255, 0.4);
-    transform: scale(1.1);
-  }
+.emo-card.selected {
+  border-color: var(--color-neutral);
+  box-shadow: 0 0 20px rgba(255, 255, 255, 0.4);
+  transform: scale(1.1);
 }
 
 .emo-face {
@@ -547,17 +546,17 @@ header {
   align-items: center;
   gap: var(--space-lg);
   margin-bottom: var(--space-md);
+}
 
-  &:hover {
-    transform: translateY(-3px);
-    box-shadow: var(--shadow-lg);
-    border-color: rgba(168, 85, 247, 0.5);
-  }
+.story-card:hover {
+  transform: translateY(-3px);
+  box-shadow: var(--shadow-lg);
+  border-color: rgba(168, 85, 247, 0.5);
+}
 
-  &:focus {
-    outline: 3px solid var(--color-info);
-    outline-offset: 2px;
-  }
+.story-card:focus {
+  outline: 3px solid var(--color-info);
+  outline-offset: 2px;
 }
 
 .story-icon {
@@ -685,29 +684,29 @@ header {
   cursor: pointer;
   transition: all var(--transition-fast);
   will-change: transform;
+}
 
-  &:hover {
-    background: var(--color-border);
-    transform: scale(1.05);
-  }
+.word-option:hover {
+  background: var(--color-border);
+  transform: scale(1.05);
+}
 
-  &:focus {
-    outline: 3px solid var(--color-info);
-    outline-offset: 2px;
-  }
+.word-option:focus {
+  outline: 3px solid var(--color-info);
+  outline-offset: 2px;
+}
 
-  &.correct {
-    background: rgba(34, 197, 94, 0.3);
-    border-color: var(--color-success);
-    color: #86efac;
-  }
+.word-option.correct {
+  background: rgba(34, 197, 94, 0.3);
+  border-color: var(--color-success);
+  color: #86efac;
+}
 
-  &.wrong {
-    background: rgba(239, 68, 68, 0.3);
-    border-color: var(--color-error);
-    color: #fca5a5;
-    animation: shake 0.3s;
-  }
+.word-option.wrong {
+  background: rgba(239, 68, 68, 0.3);
+  border-color: var(--color-error);
+  color: #fca5a5;
+  animation: shake 0.3s;
 }
 
 @keyframes shake {
@@ -732,22 +731,22 @@ header {
   font-size: var(--text-lg);
   font-weight: 800;
   animation: pop 0.3s ease;
+}
 
-  &.show {
-    display: block;
-  }
+.result-badge.show {
+  display: block;
+}
 
-  &.correct-res {
-    background: rgba(34, 197, 94, 0.2);
-    border: 2px solid var(--color-success);
-    color: #86efac;
-  }
+.result-badge.correct-res {
+  background: rgba(34, 197, 94, 0.2);
+  border: 2px solid var(--color-success);
+  color: #86efac;
+}
 
-  &.wrong-res {
-    background: rgba(239, 68, 68, 0.15);
-    border: 2px solid var(--color-error);
-    color: #fca5a5;
-  }
+.result-badge.wrong-res {
+  background: rgba(239, 68, 68, 0.15);
+  border: 2px solid var(--color-error);
+  color: #fca5a5;
 }
 
 @keyframes pop {

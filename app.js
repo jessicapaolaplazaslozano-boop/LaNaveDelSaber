@@ -96,11 +96,19 @@ function buildEmotionCards() {
 
 function selectEmotion(emotion, card) {
   document.querySelectorAll('.emo-card').forEach((c) => {
-    c.classList.remove('selected');
+    c.classList.remove('selected', 'pop');
     c.setAttribute('aria-pressed', 'false');
   });
   card.classList.add('selected');
   card.setAttribute('aria-pressed', 'true');
+
+  // Pequeño rebote llamativo al elegir la emoción
+  card.classList.remove('pop');
+  void card.offsetWidth; // fuerza el reinicio de la animación
+  card.classList.add('pop');
+
+  playEmotionSound(emotion.id);
+
   const panel = document.getElementById('emoPanel');
   document.getElementById('emoBigFace').textContent = emotion.emoji;
   document.getElementById('emoTitle').textContent = emotion.name;
@@ -125,8 +133,33 @@ function buildStoriesList() {
 }
 
 function openStory(story) {
+  playStoryOpenSound();
   const content = document.getElementById('storyContent');
-  const storyHTML = `<div>${story.title}</div><div class="story-body">${story.pages.map((page) => `<p>${page}</p>`).join('')}</div><div>${story.moral}</div>`;
+
+  const storyHTML = `
+    <div style="text-align: center; margin-bottom: 16px;">
+      <span class="story-icon-open" style="font-size: 3rem;" aria-hidden="true">${story.icon}</span>
+      <h2 style="font-family: var(--font-display); font-size: 1.6rem; margin-top: 10px; font-weight: 800;">
+        ${story.title}
+      </h2>
+      <span style="background: rgba(255, 255, 255, 0.1); border-radius: 50px; padding: 4px 14px; font-size: 0.8rem; color: var(--color-text-muted); display: inline-block;">
+        ${story.tag}
+      </span>
+    </div>
+
+    <div class="story-body">
+      ${story.pages.map((page) => `<p>${page}</p>`).join('')}
+    </div>
+
+    <div style="margin-top: 20px; padding: 14px; background: rgba(255, 255, 255, 0.07); border-radius: 14px; font-size: 0.95rem; font-weight: 700; color: #fbbf24; text-align: center;">
+      ${story.moral}
+    </div>
+
+    <div style="margin-top: 12px; text-align: center; font-size: 0.85rem; color: var(--color-text-muted);">
+      Emoción trabajada: <strong>${story.emotion}</strong>
+    </div>
+  `;
+
   content.innerHTML = storyHTML;
   goTo('screen-cuento-detalle');
 }
@@ -272,6 +305,64 @@ function playWrongSound() {
   playTone(293.66, 0.28, 'triangle', 0.12); // Re4
 }
 
+/**
+ * Reproduce varias notas en secuencia rápida (arpegio).
+ * @param {number[]} freqs - Frecuencias en Hz, en orden.
+ */
+function playArpeggio(freqs, type = 'sine', noteDuration = 0.16, gap = 0.09) {
+  freqs.forEach((freq, i) => playTone(freq, noteDuration, type, i * gap));
+}
+
+/**
+ * Reproduce un tono que sube o baja de frecuencia (efecto "boing"/deslizante).
+ */
+function playSweep(startFreq, endFreq, duration, type = 'sine', delay = 0) {
+  const ctx = getAudioContext();
+  if (!ctx) return;
+  try {
+    const startTime = ctx.currentTime + delay;
+    const oscillator = ctx.createOscillator();
+    const gainNode = ctx.createGain();
+    oscillator.type = type;
+    oscillator.frequency.setValueAtTime(startFreq, startTime);
+    oscillator.frequency.exponentialRampToValueAtTime(endFreq, startTime + duration);
+    gainNode.gain.setValueAtTime(0.0001, startTime);
+    gainNode.gain.exponentialRampToValueAtTime(0.16, startTime + 0.03);
+    gainNode.gain.exponentialRampToValueAtTime(0.0001, startTime + duration);
+    oscillator.connect(gainNode);
+    gainNode.connect(ctx.destination);
+    oscillator.start(startTime);
+    oscillator.stop(startTime + duration + 0.05);
+  } catch (e) {
+    // Si el audio está bloqueado por el navegador, seguimos sin sonido.
+  }
+}
+
+/**
+ * Un sonido distinto por cada emoción, pensado para niños:
+ * ninguno es brusco ni asustador, solo le da personalidad a cada una.
+ */
+const EMOTION_SOUNDS = {
+  alegria: () => playArpeggio([659.25, 830.61, 987.77], 'sine', 0.14, 0.08),
+  tristeza: () => playArpeggio([392.0, 329.63], 'sine', 0.35, 0.18),
+  enojo: () => playTone(196.0, 0.22, 'triangle'),
+  miedo: () => playArpeggio([311.13, 293.66], 'sine', 0.3, 0.2),
+  sorpresa: () => playSweep(320, 720, 0.22, 'sine'),
+  calma: () => playTone(392.0, 0.6, 'sine'),
+};
+
+function playEmotionSound(emotionId) {
+  const player = EMOTION_SOUNDS[emotionId];
+  if (player) player();
+}
+
+/**
+ * Sonido "mágico" ascendente al abrir un cuento.
+ */
+function playStoryOpenSound() {
+  playArpeggio([523.25, 659.25, 783.99, 1046.5], 'triangle', 0.12, 0.07);
+}
+
 function checkAnswer(chosen, word, btn) {
   if (AppState.answered) return;
   AppState.answered = true;
@@ -313,7 +404,11 @@ function showGameFinal() {
   const isUndefeated = AppState.score === CONFIG.GAME_MAX_SCORE;
   const isGood = AppState.score >= 3;
   const emoji = isUndefeated ? '🏆' : isGood ? '🌟' : '🚀';
-  const message = isUndefeated ? '¡PERFECTO! 🏆' : isGood ? '¡MUY BIEN! 🌟' : '¡Buen intento! 💪';
+  const message = isUndefeated
+    ? '¡PERFECTO! 🏆 ¡Eres una superestrella!'
+    : isGood
+      ? '¡MUY BIEN! 🌟 ¡Sigue practicando!'
+      : '¡Buen intento! 💪 ¡Inténtalo de nuevo!';
   document.getElementById('syllableDisplay').innerHTML = `<span style="font-size: 3rem;">${emoji}</span>`;
   document.getElementById('wordHint').textContent = '';
   document.getElementById('wordOptions').innerHTML = '';
